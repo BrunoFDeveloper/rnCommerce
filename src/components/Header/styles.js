@@ -13,6 +13,7 @@ export const LogoContent = styled.TouchableOpacity``;
 export const LogoImage = styled.Image.attrs({
   resizeMode: 'cover',
 })`
+  margin-top: 15px;
   width: 185px;
   height: 24px;
   margin-bottom: 15px;
@@ -20,6 +21,7 @@ export const LogoImage = styled.Image.attrs({
 `;
 
 export const ContentCart = styled.TouchableOpacity`
+  margin-top: 15px;
   margin-right: 20px;
   margin-bottom: 10px;
   position: relative;

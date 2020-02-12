@@ -36,7 +36,7 @@ export const ProductPrice = styled.Text`
 
 export const ProductButton = styled(RectButton)`
   background: ${colors.primary};
-  height: 50px;
+  height: 45px;
   width: 100%;
   margin-top: auto;
   border-radius: 4px;
