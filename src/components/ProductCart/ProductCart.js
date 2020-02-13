@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -23,8 +23,10 @@ import {
   Total,
 } from './styles';
 
-function ProductCart({ product, updateAmountRequest, removeFromCart }) {
+export default function ProductCart({ product }) {
   const { id, image, title, priceFormatted, amount } = product;
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <ProductContent>
@@ -44,11 +46,13 @@ function ProductCart({ product, updateAmountRequest, removeFromCart }) {
               name="remove-circle-outline"
               color={colors.primary}
               size={24}
-              onPress={() => updateAmountRequest(id, amount - 1)}
+              onPress={() => dispatch(updateAmountRequest(id, amount - 1))}
             />
           </IconButton>
           <AmountInput editable={false} value={String(amount)} />
-          <IconButton onPress={() => updateAmountRequest(id, amount + 1)}>
+          <IconButton
+            onPress={() => dispatch(updateAmountRequest(id, amount + 1))}
+          >
             <Icon name="add-circle-outline" color={colors.primary} size={24} />
           </IconButton>
         </FooterControl>
@@ -65,9 +69,6 @@ ProductCart.propTypes = {
     title: PropTypes.string,
     priceFormatted: PropTypes.string,
     subtotal: PropTypes.string,
+    amount: PropTypes.number,
   }).isRequired,
 };
-
-export default connect(null, { updateAmountRequest, removeFromCart })(
-  ProductCart
-);

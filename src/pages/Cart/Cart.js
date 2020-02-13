@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import {
   Container,
@@ -15,7 +14,23 @@ import {
 import ProductCart from '../../components/ProductCart/ProductCart';
 import { formatPrice } from '../../util/format';
 
-function Cart({ cart, total }) {
+function Cart() {
+  const cart = useSelector(state =>
+    state.cart.map(product => ({
+      ...product,
+      subtotal: formatPrice(product.price * product.amount),
+    }))
+  );
+
+  const total = useSelector(state =>
+    formatPrice(
+      state.cart.reduce(
+        (initialValue, { price, amount }) => initialValue + price * amount,
+        0
+      )
+    )
+  );
+
   return (
     <Container>
       <CartBox behavior="padding" enabled>
@@ -40,26 +55,4 @@ function Cart({ cart, total }) {
   );
 }
 
-Cart.defaultProps = {
-  total: 0,
-};
-
-Cart.propTypes = {
-  cart: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  total: PropTypes.string,
-};
-
-const mapStateToProps = state => ({
-  cart: state.cart.map(product => ({
-    ...product,
-    subtotal: formatPrice(product.price * product.amount),
-  })),
-  total: formatPrice(
-    state.cart.reduce(
-      (initialValue, { price, amount }) => initialValue + price * amount,
-      0
-    )
-  ),
-});
-
-export default connect(mapStateToProps)(Cart);
+export default Cart;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -16,13 +16,25 @@ import {
   TextButton,
 } from './styles';
 
-function ProductItem({ product, addToCartRequest, cartCount }) {
+export default function ProductItem({ product }) {
+  const cartCount = useSelector(state =>
+    state.cart.reduce(
+      (initialValue, productCount) => ({
+        ...initialValue,
+        [productCount.id]: productCount.amount,
+      }),
+      {}
+    )
+  );
+
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <ProductImage source={{ uri: product.image }} />
       <ProductTitle>{product.title}</ProductTitle>
       <ProductPrice>{product.priceFormatted}</ProductPrice>
-      <ProductButton onPress={() => addToCartRequest(product.id)}>
+      <ProductButton onPress={() => dispatch(addToCartRequest(product.id))}>
         <IconContent>
           <Icon name="add-shopping-cart" color="#FFF" size={20} />
           <TextIcon>{cartCount[product.id] || 0}</TextIcon>
@@ -40,18 +52,4 @@ ProductItem.propTypes = {
     priceFormatted: PropTypes.string,
     id: PropTypes.number,
   }).isRequired,
-  addToCartRequest: PropTypes.func.isRequired,
-  cartCount: PropTypes.shape({}).isRequired,
 };
-
-const mapStateToProps = state => ({
-  cartCount: state.cart.reduce(
-    (initialValue, product) => ({
-      ...initialValue,
-      [product.id]: product.amount,
-    }),
-    {}
-  ),
-});
-
-export default connect(mapStateToProps, { addToCartRequest })(ProductItem);

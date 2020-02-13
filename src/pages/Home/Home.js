@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
 
 import { Container } from './styles';
 import ProductItem from '../../components/ProductItem/ProductItem';
 import api from '../../services/api';
 
-import { addToCartRequest } from '../../store/modules/cart/actions';
 import { formatPrice } from '../../util/format';
 
-function Home(props) {
+export default function Home(props) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -42,5 +40,3 @@ function Home(props) {
     </Container>
   );
 }
-
-export default connect(null, { addToCartRequest })(Home);
