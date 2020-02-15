@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -23,7 +23,7 @@ import {
   Total,
 } from './styles';
 
-export default function ProductCart({ product }) {
+function ProductCart({ product }) {
   const { id, image, title, priceFormatted, amount } = product;
   const dispatch = useDispatch();
 
@@ -72,3 +72,5 @@ ProductCart.propTypes = {
     amount: PropTypes.number,
   }).isRequired,
 };
+
+export default memo(ProductCart);

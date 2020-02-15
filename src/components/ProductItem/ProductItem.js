@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -16,7 +16,7 @@ import {
   TextButton,
 } from './styles';
 
-export default function ProductItem({ product }) {
+function ProductItem({ product }) {
   const cartCount = useSelector(state =>
     state.cart.reduce(
       (initialValue, productCount) => ({
@@ -53,3 +53,5 @@ ProductItem.propTypes = {
     id: PropTypes.number,
   }).isRequired,
 };
+
+export default memo(ProductItem);
